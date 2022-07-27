@@ -14,7 +14,8 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.16.1",
-    "mongodb": "^3.6.1"
+    "mongodb": "^3.6.1",
+    "pug": "^3.0.2"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.19"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
