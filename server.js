@@ -2,6 +2,8 @@
 require('dotenv').config();
 const express = require('express');
 const myDB = require('./connection');
+const session = require('express-session');
+const passport = require('passport');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 const path = require('path');
 
@@ -9,6 +11,17 @@ const app = express();
 
 app.set('views', path.join(__dirname, 'views/pug'));
 app.set('view engine', 'pug');
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
+app.use(passport.initialize());
+
 fccTesting(app); //For FCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
