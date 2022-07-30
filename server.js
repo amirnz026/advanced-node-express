@@ -41,14 +41,13 @@ myDB(async (client) => {
     });
   });
 
-  app
-    .route('/login')
-    .post(
-      passport.authenticate('local', { failureRedirect: '/' }),
-      (req, res) => {
-        res.redirect('/profile');
-      }
-    );
+  app.route('/').get((req, res) => {
+    res.render(process.cwd() + '/views/pug/index', {
+      title: 'Home page',
+      message: 'Please login',
+      showLogin: true,
+    });
+  });
 
   app.route('/profile').get(ensureAuthenticated, (req, res) => {
     res.render(process.cwd() + '/views/pug/profile');
