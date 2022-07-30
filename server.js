@@ -40,6 +40,7 @@ myDB(async (client) => {
       showLogin: true,
     });
   });
+
   app
     .route('/login')
     .post(
@@ -48,6 +49,7 @@ myDB(async (client) => {
         res.redirect('/profile');
       }
     );
+
   app.route('/profile').get(ensureAuthenticated, (req, res) => {
     res.render(process.cwd() + '/views/pug/profile');
   });
@@ -78,24 +80,20 @@ myDB(async (client) => {
       });
     })
   );
-
   // Be sure to add this...
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render('pug', {
-      title: e,
-      message: 'Unable to login',
-      showLogin: true,
-    });
+    res.render('pug', { title: e, message: 'Unable to login' });
   });
 });
 
 function ensureAuthenticated(req, res, next) {
-  if (user.isAuthenticated) {
+  if (req.isAuthenticated()) {
     return next();
   }
   res.redirect('/');
 }
+
 // app.listen out here...
 
 app.listen(process.env.PORT || 3000, () => {
