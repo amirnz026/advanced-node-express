@@ -37,6 +37,7 @@ myDB(async (client) => {
     res.render('pug', {
       title: 'Connected to Database',
       message: 'Please login',
+      showLogin: true,
     });
   });
 
@@ -66,10 +67,21 @@ myDB(async (client) => {
       });
     })
   );
+  app.post(
+    '/login',
+    passport.authenticate('local', { failureRedirect: '/' }),
+    function (req, res) {
+      res.render('/pug/profile.pug');
+    }
+  );
   // Be sure to add this...
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render('pug', { title: e, message: 'Unable to login' });
+    res.render('pug', {
+      title: e,
+      message: 'Unable to login',
+      showLogin: true,
+    });
   });
 });
 // app.listen out here...
