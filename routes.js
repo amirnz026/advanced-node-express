@@ -18,6 +18,9 @@ module.exports = function (app, myDataBase) {
       username: req.user.username,
     });
   });
+  app.route('/chat').get(ensureAuthenticated, (req, res) => {
+    res.render(process.cwd() + '/views/pug/chat.pug', { user: req.user });
+  });
   app.route('/logout').get((req, res) => {
     req.logout();
     res.redirect('/');
@@ -63,7 +66,8 @@ module.exports = function (app, myDataBase) {
       failureRedirect: '/',
     }),
     (req, res) => {
-      res.redirect('/profile');
+      req.session.user_id = req.user.id;
+      res.redirect('/chat');
     }
   );
   function ensureAuthenticated(req, res, next) {

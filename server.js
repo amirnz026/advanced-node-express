@@ -12,7 +12,8 @@ const bcrypt = require('bcrypt');
 
 const app = express();
 app.set('view engine', 'pug');
-
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 fccTesting(app); // For fCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
@@ -35,12 +36,14 @@ myDB(async (client) => {
 
   routes(app, myDataBase);
   auth(app, myDataBase);
-  
+  io.on('connection', (socket) => {
+    console.log('A user has connected');
+  });
   app.use((req, res, next) => {
     res.status(404).type('text').send('Not Found');
   });
   // Serialization and deserialization here...
-  
+
   // Be sure to add this...
 }).catch((e) => {
   app.route('/').get((req, res) => {
@@ -48,10 +51,8 @@ myDB(async (client) => {
   });
 });
 
-
-
 // app.listen out here...
 
-app.listen(process.env.PORT || 3000, () => {
+http.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port ' + process.env.PORT);
 });
