@@ -6,6 +6,7 @@ $(document).ready(function () {
     console.log(data);
   });
 
+  socket.emit('user count');
   // Form submittion with new message in field with id 'm'
   $('form').submit(function () {
     let messageToSend = $('#m').val();
@@ -14,3 +15,7 @@ $(document).ready(function () {
     return false; // Prevent form submit from refreshing page
   });
 });
+
+
+git add. 
+Handle a Disconnect is done
